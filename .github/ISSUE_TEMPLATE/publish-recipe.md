@@ -1,15 +1,14 @@
 ---
 name: Publish recipe
 about: Publish a recipe HTML to GitHub Pages
-title: "Publish recipe: <RECIPE TITLE>"
+title: "Publish recipe: "
 labels: publish
 ---
 
 <!-- SLUG START -->
-<slug-here>
+paste-slug-here
 <!-- SLUG END -->
 
 <!-- HTML START -->
-<!doctype html>
-<html>...</html>
+paste-html-here
 <!-- HTML END -->
