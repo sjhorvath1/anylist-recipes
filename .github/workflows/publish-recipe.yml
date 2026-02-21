@@ -1,0 +1,76 @@
+name: Publish recipe
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  publish:
+    if: contains(join(github.event.issue.labels.*.name, ','), 'publish')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse issue body (expects markers)
+        id: parse
+        run: |
+          python - << 'PY'
+          import re, os, json, pathlib
+
+          body = os.environ["ISSUE_BODY"]
+
+          def grab(tag):
+            m = re.search(rf"<!-- {tag} START -->(.*?)<!-- {tag} END -->", body, re.S)
+            return (m.group(1).strip() if m else "")
+
+          slug = grab("SLUG")
+          html = grab("HTML")
+
+          if not slug or not html:
+            raise SystemExit("Missing SLUG or HTML block markers in issue body.")
+
+          # Basic safety: ensure slug is filename-safe-ish
+          if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            raise SystemExit(f"Bad slug: {slug}")
+
+          pathlib.Path("recipes").mkdir(exist_ok=True)
+
+          # Write index and archive
+          pathlib.Path("index.html").write_text(html, encoding="utf-8")
+          pathlib.Path(f"recipes/{slug}.html").write_text(html, encoding="utf-8")
+
+          print("OK")
+          PY
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "recipe-bot"
+          git config user.email "recipe-bot@users.noreply.github.com"
+          git add index.html recipes/*.html
+          git commit -m "Publish recipe from issue #${{ github.event.issue.number }}" || exit 0
+          git push
+
+      - name: Comment with URLs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            // Try to find the slug in body again (simple)
+            const body = issue.body || "";
+            const m = body.match(/<!-- SLUG START -->([\s\S]*?)<!-- SLUG END -->/);
+            const slug = m ? m[1].trim() : "";
+            const base = `https://${owner}.github.io/${repo}/`;
+            const archive = slug ? `${base}recipes/${slug}.html` : base;
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: issue.number,
+              body: `Published ✅\n\nLatest: ${base}\nArchive: ${archive}`
+            });
