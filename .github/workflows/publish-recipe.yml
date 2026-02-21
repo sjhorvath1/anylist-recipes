@@ -16,11 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Parse issue body (expects markers)
+      - name: Parse issue body, write archive, rebuild index
         id: parse
         run: |
           python - << 'PY'
-          import re, os, json, pathlib
+          import re, os, pathlib, html as htmlmod
+          from datetime import datetime
 
           body = os.environ["ISSUE_BODY"]
 
@@ -28,23 +29,79 @@ jobs:
             m = re.search(rf"<!-- {tag} START -->(.*?)<!-- {tag} END -->", body, re.S)
             return (m.group(1).strip() if m else "")
 
-          slug = grab("SLUG")
-          html = grab("HTML")
+          base_slug = grab("SLUG")
+          recipe_html = grab("HTML")
 
-          if not slug or not html:
+          if not base_slug or not recipe_html:
             raise SystemExit("Missing SLUG or HTML block markers in issue body.")
 
-          # Basic safety: ensure slug is filename-safe-ish
-          if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
-            raise SystemExit(f"Bad slug: {slug}")
+          if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", base_slug):
+            raise SystemExit(f"Bad slug: {base_slug}")
 
-          pathlib.Path("recipes").mkdir(exist_ok=True)
+          recipes_dir = pathlib.Path("recipes")
+          recipes_dir.mkdir(exist_ok=True)
 
-          # Write index and archive
-          pathlib.Path("index.html").write_text(html, encoding="utf-8")
-          pathlib.Path(f"recipes/{slug}.html").write_text(html, encoding="utf-8")
+          # If slug exists, append -2, -3, etc. (never overwrite different recipe)
+          slug = base_slug
+          n = 2
+          target = recipes_dir / f"{slug}.html"
+          while target.exists():
+            slug = f"{base_slug}-{n}"
+            target = recipes_dir / f"{slug}.html"
+            n += 1
 
-          print("OK")
+          target.write_text(recipe_html, encoding="utf-8")
+
+          # Build index.html as a TOC of /recipes
+          def title_from_file(p: pathlib.Path) -> str:
+            txt = p.read_text(encoding="utf-8", errors="ignore")
+            m = re.search(r"<h1[^>]*>(.*?)</h1>", txt, re.I | re.S)
+            if m:
+              t = re.sub(r"<.*?>", "", m.group(1)).strip()
+              return t or p.stem
+            m = re.search(r"<title[^>]*>(.*?)</title>", txt, re.I | re.S)
+            if m:
+              t = re.sub(r"<.*?>", "", m.group(1)).strip()
+              return t or p.stem
+            return p.stem
+
+          items = []
+          for p in sorted(recipes_dir.glob("*.html")):
+            items.append((p.name, title_from_file(p)))
+
+          now = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+          index_html = f"""<!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>AnyList Recipes</title>
+            <style>
+              body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.4; margin: 16px; }}
+              h1 {{ font-size: 24px; margin: 0 0 12px; }}
+              .meta {{ font-size: 14px; margin: 0 0 14px; opacity: 0.8; }}
+              ul {{ padding-left: 18px; }}
+              li {{ margin: 10px 0; }}
+              a {{ text-decoration: none; }}
+              a:hover {{ text-decoration: underline; }}
+            </style>
+          </head>
+          <body>
+            <h1>AnyList Recipes</h1>
+            <div class="meta">Last updated: {htmlmod.escape(now)}</div>
+            <ul>
+              {''.join(f'<li><a href="recipes/{htmlmod.escape(fname)}">{htmlmod.escape(title)}</a></li>' for fname, title in items)}
+            </ul>
+          </body>
+          </html>
+          """
+
+          pathlib.Path("index.html").write_text(index_html, encoding="utf-8")
+
+          # Output slug for later steps
+          pathlib.Path(".publish_slug").write_text(slug, encoding="utf-8")
+          print("OK:", slug)
           PY
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
@@ -53,7 +110,7 @@ jobs:
         run: |
           git config user.name "recipe-bot"
           git config user.email "recipe-bot@users.noreply.github.com"
-          git add index.html recipes/*.html
+          git add index.html recipes/*.html .publish_slug
           git commit -m "Publish recipe from issue #${{ github.event.issue.number }}" || exit 0
           git push
 
@@ -61,16 +118,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require("fs");
             const issue = context.payload.issue;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            // Try to find the slug in body again (simple)
-            const body = issue.body || "";
-            const m = body.match(/<!-- SLUG START -->([\s\S]*?)<!-- SLUG END -->/);
-            const slug = m ? m[1].trim() : "";
+
+            let slug = "";
+            try { slug = fs.readFileSync(".publish_slug", "utf8").trim(); } catch (e) {}
+
             const base = `https://${owner}.github.io/${repo}/`;
             const archive = slug ? `${base}recipes/${slug}.html` : base;
+
             await github.rest.issues.createComment({
               owner, repo, issue_number: issue.number,
-              body: `Published ✅\n\nLatest: ${base}\nArchive: ${archive}`
+              body: `Published ✅\n\nIndex (TOC): ${base}\nArchive: ${archive}`
             });
