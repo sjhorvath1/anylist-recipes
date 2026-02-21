@@ -19,10 +19,9 @@ paste-slug-here
 </head>
 <body>
   <main itemscope itemtype="https://schema.org/Recipe">
-
     <h1 itemprop="name">Recipe Title</h1>
 
-    <!-- Optional: Include only if present in source -->
+    <!-- Optional: include only when known -->
     <p><strong>Servings:</strong> <span itemprop="recipeYield">X servings</span></p>
 
     <h2>Ingredients</h2>
@@ -37,6 +36,11 @@ paste-slug-here
       <li itemprop="recipeInstructions">Step</li>
     </ol>
 
+    <!-- Optional -->
+    <h2>Nutrition (estimated)</h2>
+    <div itemprop="nutrition" itemscope itemtype="https://schema.org/NutritionInformation">
+      <p><strong>Calories:</strong> <span itemprop="calories">0 calories</span></p>
+    </div>
   </main>
 </body>
 </html>
