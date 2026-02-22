@@ -17,8 +17,10 @@ jobs:
 
       - name: Extract slug + HTML
         id: extract
+        shell: bash
         run: |
           set -euo pipefail
+
           BODY="${{ github.event.issue.body }}"
           BODY="$(printf "%s" "$BODY" | tr -d '\r')"
 
@@ -36,7 +38,11 @@ jobs:
           printf "%s" "$HTML" > "recipes/$SLUG.html"
 
           # -------- Build /recipes/index.html archive --------
+          shopt -s nullglob
+
           INDEX="recipes/index.html"
+          TMP_INDEX="$(mktemp)"
+
           {
             echo '<!doctype html>'
             echo '<html lang="en">'
@@ -54,22 +60,34 @@ jobs:
             echo '<body>'
             echo '  <h1>Recipe Archive</h1>'
             echo '  <ul>'
+          } > "$TMP_INDEX"
 
-            for f in recipes/*.html; do
-              [ "$(basename "$f")" = "index.html" ] && continue
-              file="$(basename "$f")"
-              title="$(grep -m1 -oP "(?<=<title>).*?(?=</title>)" "$f" 2>/dev/null || true)"
-              [ -z "$title" ] && title="${file%.html}"
-              printf '    <li><a href="%s">%s</a></li>\n' "$file" "$title"
-            done
+          for f in recipes/*.html; do
+            file="$(basename "$f")"
+            if [[ "$file" == "index.html" ]]; then
+              continue
+            fi
 
+            title="$(grep -m1 -oP '(?<=<title>).*?(?=</title>)' "$f" 2>/dev/null || true)"
+            if [[ -z "$title" ]]; then
+              title="${file%.html}"
+            fi
+
+            printf '    <li><a href="%s">%s</a></li>\n' "$file" "$title" >> "$TMP_INDEX"
+          done
+
+          {
             echo '  </ul>'
             echo '</body>'
             echo '</html>'
-          } > "$INDEX"
+          } >> "$TMP_INDEX"
+
+          mv "$TMP_INDEX" "$INDEX"
 
       - name: Commit & Push
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add recipes/
