@@ -17,11 +17,13 @@ jobs:
 
       - name: Extract slug + HTML
         id: extract
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
         shell: bash
         run: |
           set -euo pipefail
 
-          BODY="${{ github.event.issue.body }}"
+          BODY="$ISSUE_BODY"
           BODY="$(printf "%s" "$BODY" | tr -d '\r')"
 
           SLUG="$(printf "%s\n" "$BODY" \
@@ -42,41 +44,31 @@ jobs:
 
           INDEX="recipes/index.html"
 
-          cat > "$INDEX" <<'EOF'
-          <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Recipe Archive</title>
-            <style>
-              body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }
-              ul { line-height: 1.8; }
-              a { text-decoration: none; }
-              a:hover { text-decoration: underline; }
-            </style>
-          </head>
-          <body>
-            <h1>Recipe Archive</h1>
-            <ul>
-          EOF
+          printf '%s\n' '<!doctype html>' '<html lang="en">' '<head>' \
+            '  <meta charset="utf-8">' \
+            '  <meta name="viewport" content="width=device-width, initial-scale=1">' \
+            '  <title>Recipe Archive</title>' \
+            '  <style>' \
+            '    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }' \
+            '    ul { line-height: 1.8; }' \
+            '    a { text-decoration: none; }' \
+            '    a:hover { text-decoration: underline; }' \
+            '  </style>' \
+            '</head>' '<body>' \
+            '  <h1>Recipe Archive</h1>' \
+            '  <ul>' > "$INDEX"
 
           for f in recipes/*.html; do
             file="$(basename "$f")"
             [[ "$file" == "index.html" ]] && continue
 
-            # Extract <title>...</title> without grep -P (portable)
             title="$(sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p' "$f" | head -n 1 || true)"
             [[ -z "${title:-}" ]] && title="${file%.html}"
 
-            printf '      <li><a href="%s">%s</a></li>\n' "$file" "$title" >> "$INDEX"
+            printf '    <li><a href="%s">%s</a></li>\n' "$file" "$title" >> "$INDEX"
           done
 
-          cat >> "$INDEX" <<'EOF'
-            </ul>
-          </body>
-          </html>
-          EOF
+          printf '%s\n' '  </ul>' '</body>' '</html>' >> "$INDEX"
 
       - name: Commit & Push
         shell: bash
