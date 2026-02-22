@@ -17,9 +17,12 @@ jobs:
 
       - name: Extract slug + HTML
         id: extract
+        shell: bash
         run: |
           set -euo pipefail
-          BODY="${{ github.event.issue.body }}"
+
+          # Safely read the issue body without breaking the shell script
+          BODY="$(jq -r '.issue.body // ""' "$GITHUB_EVENT_PATH")"
           BODY="$(printf "%s" "$BODY" | tr -d '\r')"
 
           SLUG="$(printf "%s\n" "$BODY" \
@@ -29,6 +32,9 @@ jobs:
           HTML="$(printf "%s\n" "$BODY" \
             | sed -n '/<!-- HTML START -->/,/<!-- HTML END -->/p' \
             | sed '1d;$d')"
+
+          # Strip accidental 'content=' strings if present
+          HTML="$(printf "%s" "$HTML" | sed 's/content=//g')"
 
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
 
