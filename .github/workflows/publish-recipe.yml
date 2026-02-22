@@ -39,10 +39,10 @@ jobs:
           mkdir -p recipes
           printf "%s" "$HTML" > "recipes/$SLUG.html"
 
-          # -------- Build /recipes/index.html archive (no temp files) --------
+          # -------- Build root index.html archive --------
           shopt -s nullglob
 
-          INDEX="recipes/index.html"
+          INDEX="index.html"
 
           printf '%s\n' '<!doctype html>' '<html lang="en">' '<head>' \
             '  <meta charset="utf-8">' \
@@ -65,7 +65,7 @@ jobs:
             title="$(sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p' "$f" | head -n 1 || true)"
             [[ -z "${title:-}" ]] && title="${file%.html}"
 
-            printf '    <li><a href="%s">%s</a></li>\n' "$file" "$title" >> "$INDEX"
+            printf '    <li><a href="recipes/%s">%s</a></li>\n' "$file" "$title" >> "$INDEX"
           done
 
           printf '%s\n' '  </ul>' '</body>' '</html>' >> "$INDEX"
@@ -76,7 +76,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add recipes/
+          git add index.html recipes/
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
