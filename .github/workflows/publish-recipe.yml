@@ -17,12 +17,9 @@ jobs:
 
       - name: Extract slug + HTML
         id: extract
-        shell: bash
         run: |
           set -euo pipefail
-
-          # Safely read the issue body without breaking the shell script
-          BODY="$(jq -r '.issue.body // ""' "$GITHUB_EVENT_PATH")"
+          BODY="${{ github.event.issue.body }}"
           BODY="$(printf "%s" "$BODY" | tr -d '\r')"
 
           SLUG="$(printf "%s\n" "$BODY" \
@@ -33,14 +30,43 @@ jobs:
             | sed -n '/<!-- HTML START -->/,/<!-- HTML END -->/p' \
             | sed '1d;$d')"
 
-          # Strip accidental 'content=' strings if present
-          HTML="$(printf "%s" "$HTML" | sed 's/content=//g')"
-
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
 
           mkdir -p recipes
           printf "%s" "$HTML" > "recipes/$SLUG.html"
-          printf "%s" "$HTML" > "recipes/$SLUG.txt"
+
+          # -------- Build /recipes/index.html archive --------
+          INDEX="recipes/index.html"
+          {
+            echo '<!doctype html>'
+            echo '<html lang="en">'
+            echo '<head>'
+            echo '  <meta charset="utf-8">'
+            echo '  <meta name="viewport" content="width=device-width, initial-scale=1">'
+            echo '  <title>Recipe Archive</title>'
+            echo '  <style>'
+            echo '    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }'
+            echo '    ul { line-height: 1.8; }'
+            echo '    a { text-decoration: none; }'
+            echo '    a:hover { text-decoration: underline; }'
+            echo '  </style>'
+            echo '</head>'
+            echo '<body>'
+            echo '  <h1>Recipe Archive</h1>'
+            echo '  <ul>'
+
+            for f in recipes/*.html; do
+              [ "$(basename "$f")" = "index.html" ] && continue
+              file="$(basename "$f")"
+              title="$(grep -m1 -oP "(?<=<title>).*?(?=</title>)" "$f" 2>/dev/null || true)"
+              [ -z "$title" ] && title="${file%.html}"
+              printf '    <li><a href="%s">%s</a></li>\n' "$file" "$title"
+            done
+
+            echo '  </ul>'
+            echo '</body>'
+            echo '</html>'
+          } > "$INDEX"
 
       - name: Commit & Push
         run: |
