@@ -1,119 +1,49 @@
-name: Publish recipe
+name: Publish Recipe
 
 on:
   issues:
-    types: [opened, edited, labeled]
+    types: [opened, edited]
 
 permissions:
   contents: write
-  issues: write
 
 jobs:
   publish:
-    if: contains(join(github.event.issue.labels.*.name, ','), 'publish')
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Parse issue body, write archive, rebuild index
+      - name: Extract slug + HTML
+        id: extract
         run: |
-          python - << 'PY'
-          import re
-          import os
-          import pathlib
-          from datetime import datetime
+          set -euo pipefail
+          BODY="${{ github.event.issue.body }}"
+          BODY="$(printf "%s" "$BODY" | tr -d '\r')"
 
-          body = os.environ.get("ISSUE_BODY", "")
+          SLUG="$(printf "%s\n" "$BODY" \
+            | sed -n '/<!-- SLUG START -->/,/<!-- SLUG END -->/p' \
+            | sed '1d;$d' | head -n 1 | xargs)"
 
-          def grab(tag: str) -> str:
-              pattern = rf"<!--\s*{tag}\s*START\s*-->\s*(.*?)\s*<!--\s*{tag}\s*END\s*-->"
-              m = re.search(pattern, body, re.S)
-              return m.group(1).strip() if m else ""
+          HTML="$(printf "%s\n" "$BODY" \
+            | sed -n '/<!-- HTML START -->/,/<!-- HTML END -->/p' \
+            | sed '1d;$d')"
 
-          slug = grab("SLUG")
-          html = grab("HTML")
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
 
-          if not slug or not html:
-              raise SystemExit("Missing SLUG or HTML block markers in issue body.")
+          mkdir -p recipes
+          printf "%s" "$HTML" > "recipes/$SLUG.html"
+          printf "%s" "$HTML" > "recipes/$SLUG.txt"
 
-          # Basic safety: ensure slug is filename-safe-ish
-          if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
-              raise SystemExit(f"Bad slug: {slug}")
-
-          pathlib.Path("recipes").mkdir(exist_ok=True)
-
-          # Write archive page
-          recipe_path = pathlib.Path(f"recipes/{slug}.html")
-          recipe_path.write_text(html, encoding="utf-8")
-
-          # Rebuild TOC index.html from /recipes/*.html
-          recipe_files = sorted(pathlib.Path("recipes").glob("*.html"), key=lambda p: p.name)
-
-          items = []
-          for p in recipe_files:
-              # Title = filename slug -> nicer display
-              display = p.stem.replace("-", " ").title()
-              items.append(f'<li><a href="recipes/{p.name}">{display}</a></li>')
-
-          toc_html = f"""<!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Recipe Archive</title>
-            <style>
-              body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; margin: 16px; }}
-              h1 {{ font-size: 24px; margin: 0 0 12px; }}
-              ul {{ padding-left: 18px; }}
-              li {{ margin: 10px 0; }}
-            </style>
-          </head>
-          <body>
-            <main>
-              <h1>Recipe Archive</h1>
-              <ul>
-                {"".join(items)}
-              </ul>
-            </main>
-          </body>
-          </html>
-          """
-
-          pathlib.Path("index.html").write_text(toc_html, encoding="utf-8")
-
-          print("OK")
-          PY
-        env:
-          ISSUE_BODY: ${{ github.event.issue.body }}
-
-      - name: Commit and push
+      - name: Commit & Push
         run: |
-          git config user.name "recipe-bot"
-          git config user.email "recipe-bot@users.noreply.github.com"
-          git add index.html recipes/*.html
-          git commit -m "Publish recipe from issue #${{ github.event.issue.number }}" || exit 0
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add recipes/
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git commit -m "Publish recipe: ${{ steps.extract.outputs.slug }}"
           git push
-
-      - name: Comment with URLs
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-
-            const body = issue.body || "";
-            const m = body.match(/<!--\s*SLUG\s*START\s*-->\s*([\s\S]*?)\s*<!--\s*SLUG\s*END\s*-->/);
-            const slug = m ? m[1].trim() : "";
-
-            const base = `https://${owner}.github.io/${repo}/`;
-            const archive = slug ? `${base}recipes/${slug}.html` : base;
-
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: issue.number,
-              body: `Published ✅\n\nArchive index: ${base}\nThis recipe: ${archive}`
-            });
