@@ -26,7 +26,7 @@ jobs:
           body = os.environ["ISSUE_BODY"]
 
           def grab(tag):
-            m = re.search(rf"<!-- {tag} START -->(.*?)<!-- {tag} END -->", body, re.S)
+           m = re.search(rf"<!--\s*{tag}\s*START\s*-->\s*(.*?)\s*<!--\s*{tag}\s*END\s*-->", body, re.S)
             return (m.group(1).strip() if m else "")
 
           base_slug = grab("SLUG")
