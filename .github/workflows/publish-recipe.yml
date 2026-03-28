@@ -28,7 +28,7 @@ jobs:
 
           SLUG="$(printf "%s\n" "$BODY" \
             | sed -n '/<!-- SLUG START -->/,/<!-- SLUG END -->/p' \
-            | sed '1d;$d' | head -n 1 | xargs)"
+            | sed '1d;$d' | grep -m1 '[^[:space:]]' | xargs)"
 
           HTML="$(printf "%s\n" "$BODY" \
             | sed -n '/<!-- HTML START -->/,/<!-- HTML END -->/p' \
