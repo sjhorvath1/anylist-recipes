@@ -4,18 +4,29 @@ on:
   issues:
     types: [opened, edited]
 
+# Least privilege: write the recipe file, comment on/close the issue. Nothing else.
 permissions:
   contents: write
+  issues: write
+
+# Two quick publishes run one after another instead of racing on git push.
+concurrency:
+  group: publish-recipe
+  cancel-in-progress: false
 
 jobs:
   publish:
+    # Only issues opened by the repo owner (Sam's token) can publish.
+    if: github.event.issue.user.login == github.repository_owner
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
 
-      - name: Extract slug + HTML
+      - name: Extract and validate slug + HTML
         id: extract
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
@@ -23,23 +34,43 @@ jobs:
         run: |
           set -euo pipefail
 
-          BODY="$ISSUE_BODY"
-          BODY="$(printf "%s" "$BODY" | tr -d '\r')"
+          BODY="$(printf "%s" "$ISSUE_BODY" | tr -d '\r')"
 
           SLUG="$(printf "%s\n" "$BODY" \
             | sed -n '/<!-- SLUG START -->/,/<!-- SLUG END -->/p' \
-            | sed '1d;$d' | grep -m1 '[^[:space:]]' | xargs)"
+            | sed '1d;$d' | grep -m1 '[^[:space:]]' | tr -d '[:space:]' || true)"
 
           HTML="$(printf "%s\n" "$BODY" \
             | sed -n '/<!-- HTML START -->/,/<!-- HTML END -->/p' \
             | sed '1d;$d')"
 
+          fail() { echo "::error::$1"; echo "$1" > "$RUNNER_TEMP/publish_error.txt"; exit 1; }
+
+          # Slug: lowercase letters, digits, single hyphens only. Blocks empty slugs, ../, quotes, $(...).
+          [[ "$SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || fail "Invalid or missing slug: '${SLUG:0:80}'"
+          (( ${#SLUG} <= 100 )) || fail "Slug longer than 100 characters"
+
+          # HTML must look like a recipe page.
+          [[ -n "$HTML" ]] || fail "No HTML found between HTML START/END markers"
+          printf "%s" "$HTML" | grep -qi '<!doctype html>' || fail "HTML is missing <!DOCTYPE html>"
+          printf "%s" "$HTML" | grep -qi '</html>' || fail "HTML is missing </html>"
+          printf "%s" "$HTML" | grep -q 'schema.org/Recipe' || fail "HTML is missing the schema.org/Recipe main element"
+
+          # No active content: the recipe skill never produces any of these.
+          if printf "%s" "$HTML" | grep -Eiq '<(script|iframe|object|embed|base|form|link)[[:space:]>/]|<meta[^>]*http-equiv|javascript:|[[:space:]]on[a-z]+[[:space:]]*='; then
+            fail "HTML contains disallowed active content (script/iframe/event handler/etc.)"
+          fi
+
+          if [[ -f "recipes/$SLUG.html" ]]; then echo "action=Updated" >> "$GITHUB_OUTPUT"; else echo "action=Published" >> "$GITHUB_OUTPUT"; fi
           echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
 
           mkdir -p recipes
           printf "%s" "$HTML" > "recipes/$SLUG.html"
 
-          # -------- Build root index.html archive --------
+      - name: Build root index.html archive
+        shell: bash
+        run: |
+          set -euo pipefail
           shopt -s nullglob
 
           INDEX="index.html"
@@ -71,6 +102,8 @@ jobs:
           printf '%s\n' '  </ul>' '</body>' '</html>' >> "$INDEX"
 
       - name: Commit & Push
+        env:
+          SLUG: ${{ steps.extract.outputs.slug }}
         shell: bash
         run: |
           set -euo pipefail
@@ -81,5 +114,34 @@ jobs:
             echo "No changes."
             exit 0
           fi
-          git commit -m "Publish recipe: ${{ steps.extract.outputs.slug }}"
-          git push
+          git commit -m "Publish recipe: $SLUG"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Comment link and close issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          SLUG: ${{ steps.extract.outputs.slug }}
+          ACTION: ${{ steps.extract.outputs.action }}
+          OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://${OWNER,,}.github.io/${REPO_NAME}/recipes/${SLUG}.html"
+          gh issue comment "$ISSUE" --body "${ACTION}: ${URL} (live within about a minute)"
+          gh issue close "$ISSUE" --reason completed
+
+      - name: Report failure on issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+        shell: bash
+        run: |
+          MSG="Publish failed."
+          [[ -f "$RUNNER_TEMP/publish_error.txt" ]] && MSG="Publish failed: $(cat "$RUNNER_TEMP/publish_error.txt")"
+          gh issue comment "$ISSUE" --body "$MSG Fix the issue body and save the edit to retry."
