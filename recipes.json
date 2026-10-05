@@ -30,6 +30,36 @@
   "fat": 10
  },
  {
+  "slug": "day-by-day-cafe-buckwheat-pancakes",
+  "url": "recipes/day-by-day-cafe-buckwheat-pancakes.html",
+  "title": "Day by Day Cafe Buckwheat Pancakes",
+  "description": "Day by Day Cafe's buckwheat pancake batter, scaled down to 1/8 of the restaurant prep batch for home cooking.",
+  "yield": "6 servings (about 18 pancakes, 3 per serving)",
+  "mealType": "Breakfast",
+  "cuisine": "American",
+  "keywords": [
+   "vegetarian"
+  ],
+  "minutes": null,
+  "added": "2026-10-05",
+  "ingredients": [
+   "2 cups whole milk",
+   "2 eggs",
+   "1 1/2 tsp vanilla extract",
+   "1 1/4 cups white flour",
+   "1 cup buckwheat flour",
+   "1/4 cup sugar",
+   "1 Tbsp baking powder",
+   "1 1/2 tsp baking soda",
+   "1 oz butter, melted"
+  ],
+  "calories": 306,
+  "protein": 10,
+  "fiber": 3,
+  "carbs": 47,
+  "fat": 9
+ },
+ {
   "slug": "spicy-chicken-alfredo",
   "url": "recipes/spicy-chicken-alfredo.html",
   "title": "Spicy Chicken Alfredo",
