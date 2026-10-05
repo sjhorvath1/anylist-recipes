@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: main
+          fetch-depth: 0  # full history so the archive can show when each recipe was added
 
       - name: Extract and validate slug + HTML
         id: extract
@@ -67,39 +68,9 @@ jobs:
           mkdir -p recipes
           printf "%s" "$HTML" > "recipes/$SLUG.html"
 
-      - name: Build root index.html archive
+      - name: Build archive (index.html, recipes.json, page styling)
         shell: bash
-        run: |
-          set -euo pipefail
-          shopt -s nullglob
-
-          INDEX="index.html"
-
-          printf '%s\n' '<!doctype html>' '<html lang="en">' '<head>' \
-            '  <meta charset="utf-8">' \
-            '  <meta name="viewport" content="width=device-width, initial-scale=1">' \
-            '  <title>Recipe Archive</title>' \
-            '  <style>' \
-            '    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }' \
-            '    ul { line-height: 1.8; }' \
-            '    a { text-decoration: none; }' \
-            '    a:hover { text-decoration: underline; }' \
-            '  </style>' \
-            '</head>' '<body>' \
-            '  <h1>Recipe Archive</h1>' \
-            '  <ul>' > "$INDEX"
-
-          for f in recipes/*.html; do
-            file="$(basename "$f")"
-            [[ "$file" == "index.html" ]] && continue
-
-            title="$(sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p' "$f" | head -n 1 || true)"
-            [[ -z "${title:-}" ]] && title="${file%.html}"
-
-            printf '    <li><a href="recipes/%s">%s</a></li>\n' "$file" "$title" >> "$INDEX"
-          done
-
-          printf '%s\n' '  </ul>' '</body>' '</html>' >> "$INDEX"
+        run: python3 site/build_index.py
 
       - name: Commit & Push
         env:
@@ -109,7 +80,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add index.html recipes/
+          git add index.html recipes.json recipes/
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
