@@ -1,0 +1,50 @@
+name: Rebuild Archive
+
+# Rebuilds index.html and recipes.json whenever recipe or site files change on main
+# (deletes, renames, manual edits). Pushes made by this workflow use GITHUB_TOKEN,
+# which does not trigger workflows, so it cannot loop.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "recipes/**"
+      - "site/**"
+      - ".github/workflows/rebuild-archive.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Same group as the publish workflow, so the two never push at the same time.
+concurrency:
+  group: publish-recipe
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Build archive
+        shell: bash
+        run: python3 site/build_index.py
+
+      - name: Commit & Push
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add index.html recipes.json recipes/
+          if git diff --cached --quiet; then
+            echo "Archive already up to date."
+            exit 0
+          fi
+          git commit -m "Rebuild archive"
+          git pull --rebase origin main
+          git push origin HEAD:main
