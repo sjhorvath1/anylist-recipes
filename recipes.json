@@ -1,5 +1,35 @@
 [
  {
+  "slug": "day-by-day-cafe-buttermilk-pancakes",
+  "url": "recipes/day-by-day-cafe-buttermilk-pancakes.html",
+  "title": "Day by Day Cafe Buttermilk Pancakes",
+  "description": "Day by Day Cafe's buttermilk pancake batter, scaled down to 1/10 of the restaurant prep batch for home cooking.",
+  "yield": "",
+  "mealType": "Breakfast",
+  "cuisine": "American",
+  "keywords": [
+   "vegetarian"
+  ],
+  "minutes": null,
+  "added": "2026-10-05",
+  "ingredients": [
+   "1 1/4 cups flour",
+   "1 1/2 tsp sugar",
+   "1 Tbsp baking powder",
+   "1/2 tsp baking soda",
+   "1/2 tsp salt",
+   "1 cup buttermilk",
+   "1 egg",
+   "2 Tbsp oil",
+   "1/3 cup whole milk"
+  ],
+  "calories": null,
+  "protein": null,
+  "fiber": null,
+  "carbs": null,
+  "fat": null
+ },
+ {
   "slug": "spicy-chicken-alfredo",
   "url": "recipes/spicy-chicken-alfredo.html",
   "title": "Spicy Chicken Alfredo",
