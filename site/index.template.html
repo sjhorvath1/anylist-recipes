@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recipe Archive</title>
+<meta name="theme-color" content="#f3f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121613" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=Libre+Franklin:wght@700;900&display=swap">
+<style>
+/* Layout: one column of search + filters over a card grid (1 col phone, 2-3 wide); macros read like a nutrition-label strip. */
+:root {
+  --bg: #f3f5f1;
+  --surface: #ffffff;
+  --ink: #1b221e;
+  --muted: #5d6a62;
+  --line: #dde3dc;
+  --accent: #2e6b4c;
+  --accent-soft: #e2eee6;
+  --protein: #9a5a00;
+  --font-display: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-label: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --radius: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121613; --surface: #1a201c; --ink: #e5ebe6; --muted: #9aa79f; --line: #2b342e;
+    --accent: #7cc4a0; --accent-soft: #213229; --protein: #f0b45c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121613; --surface: #1a201c; --ink: #e5ebe6; --muted: #9aa79f; --line: #2b342e;
+  --accent: #7cc4a0; --accent-soft: #213229; --protein: #f0b45c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.5 var(--font-body);
+  padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px);
+}
+.wrap { max-width: 1080px; margin: 0 auto; }
+header.top { padding-block: 28px 8px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+h1 { font: 400 clamp(1.9rem, 6vw, 2.6rem)/1.1 var(--font-display); margin: 0; letter-spacing: -0.01em; }
+.tagline { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+.controls {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding-block: 12px 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.searchrow { display: flex; gap: 8px; }
+.search {
+  flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  padding: 11px 16px 11px 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%235d6a62' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 15px center;
+}
+.search:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select {
+  font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; padding: 0 12px; max-width: 40%;
+}
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none; font: 600 0.85rem/1 var(--font-body); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 12px; cursor: pointer; white-space: nowrap;
+}
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chip .n { font-weight: 500; opacity: 0.65; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.more { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.more[hidden] { display: none; }
+.morelabel { font: 700 0.7rem/1 var(--font-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.statusrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.85rem; color: var(--muted); }
+.linkbtn { font: inherit; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; }
+
+.grid { list-style: none; margin: 16px 0 48px; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.card {
+  display: flex; flex-direction: column; gap: 8px; height: 100%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px 12px; color: inherit; text-decoration: none; min-width: 0;
+}
+.card:hover { border-color: var(--accent); }
+.eyebrow { display: flex; gap: 0 0.4em; align-items: center; flex-wrap: wrap; font: 700 0.7rem/1.2 var(--font-label); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.new { color: var(--accent); }
+.card h2 { font: 400 1.2rem/1.25 var(--font-display); margin: 0; text-wrap: balance; }
+.desc { margin: 0; color: var(--muted); font-size: 0.92rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tag { font-size: 0.75rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 2px 7px; }
+.facts {
+  margin-top: auto; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px;
+  border-top: 3px solid var(--ink); padding-top: 6px;
+  font-family: var(--font-label); font-variant-numeric: tabular-nums;
+}
+.fact b { font-weight: 900; font-size: 1.05rem; }
+.fact span { font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-left: 3px; }
+.fact.protein b { color: var(--protein); }
+.facts .per { margin-left: auto; font-weight: 700; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.facts.none { border-top-width: 1px; border-color: var(--line); font-weight: 700; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.empty { text-align: center; color: var(--muted); padding: 48px 0; }
+mark { background: var(--accent-soft); color: inherit; border-radius: 2px; }
+@media (prefers-reduced-motion: no-preference) { .card { transition: border-color .15s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Recipe Archive</h1>
+    <p class="tagline"><span id="total">__COUNT__</span> recipes. Open one, then share it to AnyList.</p>
+  </header>
+
+  <div class="controls">
+    <div class="searchrow">
+      <input id="q" class="search" type="search" placeholder="Search recipes or ingredients" autocomplete="off" aria-label="Search recipes or ingredients">
+      <select id="sort" aria-label="Sort">
+        <option value="new">Newest</option>
+        <option value="az">A to Z</option>
+        <option value="protein">Most protein</option>
+        <option value="cal">Fewest calories</option>
+        <option value="fiber">Most fiber</option>
+      </select>
+    </div>
+    <div class="chips" id="meals" role="group" aria-label="Meal type"></div>
+    <div class="chips" id="keywords" role="group" aria-label="Keywords"></div>
+    <div class="more" id="more" hidden>
+      <span class="morelabel">Cuisine</span>
+      <div class="chips" id="cuisines" role="group" aria-label="Cuisine"></div>
+    </div>
+    <div class="statusrow">
+      <span id="status" aria-live="polite"></span>
+      <span>
+        <button class="linkbtn" id="toggleMore" type="button" aria-expanded="false" aria-controls="more">Cuisine</button>
+        <button class="linkbtn" id="clear" type="button" hidden>&nbsp;· Clear</button>
+      </span>
+    </div>
+  </div>
+
+  <ul class="grid" id="list"></ul>
+  <p class="empty" id="empty" hidden>No recipes match. Try fewer filters or a different word.</p>
+  <noscript><ul>__FALLBACK_LIST__</ul></noscript>
+</div>
+
+<script id="data" type="application/json">__RECIPES_JSON__</script>
+<script>
+(function () {
+  "use strict";
+  var RECIPES = JSON.parse(document.getElementById("data").textContent);
+  var MEALS = ["Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Drink", "Sauce/Condiment"];
+  var KEYWORDS = ["high-protein", "high-fiber", "meal-prep", "freezer-friendly", "slow-cooker", "air-fryer", "vegetarian"];
+  var NEW_DAYS = 14;
+  var $ = function (id) { return document.getElementById(id); };
+  var norm = function (s) { return (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); };
+
+  RECIPES.forEach(function (r) {
+    r._hay = norm([r.title, r.description, r.mealType, r.cuisine, r.keywords.join(" "), r.ingredients.join(" ")].join(" "));
+  });
+
+  var state = { q: "", meal: "", kw: [], cuisine: "", sort: "new" };
+  try {
+    var p = new URLSearchParams(location.search);
+    state.q = p.get("q") || "";
+    state.meal = p.get("meal") || "";
+    state.kw = (p.get("kw") || "").split(",").filter(Boolean);
+    state.cuisine = p.get("cuisine") || "";
+    state.sort = p.get("sort") || "new";
+  } catch (e) {}
+
+  function count(pred) { return RECIPES.filter(pred).length; }
+  function chip(label, pressed, n, onClick) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.setAttribute("aria-pressed", pressed ? "true" : "false");
+    b.textContent = label;
+    if (n !== null) { var s = document.createElement("span"); s.className = "n"; s.textContent = n; b.appendChild(s); }
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function renderChips() {
+    var meals = $("meals"); meals.textContent = "";
+    meals.appendChild(chip("All", !state.meal, null, function () { state.meal = ""; update(); }));
+    MEALS.forEach(function (m) {
+      var n = count(function (r) { return r.mealType === m; });
+      if (n) meals.appendChild(chip(m, state.meal === m, n, function () { state.meal = state.meal === m ? "" : m; update(); }));
+    });
+    var kws = $("keywords"); kws.textContent = "";
+    KEYWORDS.forEach(function (k) {
+      var n = count(function (r) { return r.keywords.indexOf(k) > -1; });
+      if (!n) return;
+      var on = state.kw.indexOf(k) > -1;
+      kws.appendChild(chip(k.replace(/-/g, " "), on, n, function () {
+        state.kw = on ? state.kw.filter(function (x) { return x !== k; }) : state.kw.concat(k); update();
+      }));
+    });
+    var cuisines = {};
+    RECIPES.forEach(function (r) { if (r.cuisine) cuisines[r.cuisine] = (cuisines[r.cuisine] || 0) + 1; });
+    var cz = $("cuisines"); cz.textContent = "";
+    Object.keys(cuisines).sort().forEach(function (c) {
+      cz.appendChild(chip(c, state.cuisine === c, cuisines[c], function () { state.cuisine = state.cuisine === c ? "" : c; update(); }));
+    });
+    var tm = $("toggleMore");
+    tm.textContent = state.cuisine ? "Cuisine: " + state.cuisine : "Cuisine";
+  }
+
+  function matches(r) {
+    if (state.meal && r.mealType !== state.meal) return false;
+    if (state.cuisine && r.cuisine !== state.cuisine) return false;
+    for (var i = 0; i < state.kw.length; i++) if (r.keywords.indexOf(state.kw[i]) < 0) return false;
+    var terms = norm(state.q).split(/\s+/).filter(Boolean);
+    for (var j = 0; j < terms.length; j++) if (r._hay.indexOf(terms[j]) < 0) return false;
+    return true;
+  }
+
+  function sorter(a, b) {
+    var nullLast = function (x, y, dir) {
+      if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1; return dir * (x - y);
+    };
+    switch (state.sort) {
+      case "az": return a.title.localeCompare(b.title);
+      case "protein": return nullLast(a.protein, b.protein, -1) || a.title.localeCompare(b.title);
+      case "cal": return nullLast(a.calories, b.calories, 1) || a.title.localeCompare(b.title);
+      case "fiber": return nullLast(a.fiber, b.fiber, -1) || a.title.localeCompare(b.title);
+      default: return a.added < b.added ? 1 : a.added > b.added ? -1 : a.title.localeCompare(b.title);
+    }
+  }
+
+  function isNew(r) {
+    var d = Date.parse(r.added + "T00:00:00Z");
+    return !isNaN(d) && (Date.now() - d) / 864e5 <= NEW_DAYS;
+  }
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function fact(value, unit, extra) {
+    var f = el("span", "fact" + (extra ? " " + extra : ""));
+    f.appendChild(el("b", null, String(value)));
+    f.appendChild(el("span", null, unit));
+    return f;
+  }
+
+  function card(r) {
+    var li = el("li");
+    var a = el("a", "card"); a.href = r.url;
+    var eb = el("div", "eyebrow");
+    var bits = [r.mealType, r.cuisine].filter(Boolean).join(" · ");
+    if (bits) eb.appendChild(el("span", null, bits));
+    if (r.minutes) eb.appendChild(el("span", null, (bits ? "· " : "") + r.minutes + " min"));
+    if (isNew(r)) eb.appendChild(el("span", "new", "· New"));
+    if (eb.childNodes.length) a.appendChild(eb);
+    a.appendChild(el("h2", null, r.title));
+    if (r.description) a.appendChild(el("p", "desc", r.description));
+    if (r.keywords.length) {
+      var t = el("div", "tags");
+      r.keywords.forEach(function (k) { t.appendChild(el("span", "tag", k.replace(/-/g, " "))); });
+      a.appendChild(t);
+    }
+    if (r.calories != null || r.protein != null) {
+      var fx = el("div", "facts");
+      if (r.calories != null) fx.appendChild(fact(r.calories, "cal"));
+      if (r.protein != null) fx.appendChild(fact(r.protein + "g", "protein", "protein"));
+      if (r.fiber != null) fx.appendChild(fact(r.fiber + "g", "fiber"));
+      fx.appendChild(el("span", "per", "per serving"));
+      a.appendChild(fx);
+    } else {
+      a.appendChild(el("div", "facts none", "Nutrition not listed"));
+    }
+    li.appendChild(a);
+    return li;
+  }
+
+  function syncUrl() {
+    try {
+      var p = new URLSearchParams();
+      if (state.q) p.set("q", state.q);
+      if (state.meal) p.set("meal", state.meal);
+      if (state.kw.length) p.set("kw", state.kw.join(","));
+      if (state.cuisine) p.set("cuisine", state.cuisine);
+      if (state.sort !== "new") p.set("sort", state.sort);
+      var qs = p.toString();
+      history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+    } catch (e) {}
+  }
+
+  function update() {
+    renderChips();
+    var shown = RECIPES.filter(matches).sort(sorter);
+    var list = $("list"); list.textContent = "";
+    var frag = document.createDocumentFragment();
+    shown.forEach(function (r) { frag.appendChild(card(r)); });
+    list.appendChild(frag);
+    $("empty").hidden = shown.length > 0;
+    var filtered = state.q || state.meal || state.kw.length || state.cuisine;
+    $("status").textContent = filtered ? shown.length + " of " + RECIPES.length + " recipes" : RECIPES.length + " recipes";
+    $("clear").hidden = !filtered;
+    syncUrl();
+  }
+
+  var q = $("q"), sort = $("sort");
+  q.value = state.q; sort.value = state.sort;
+  var timer;
+  q.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(function () { state.q = q.value.trim(); update(); }, 120); });
+  sort.addEventListener("change", function () { state.sort = sort.value; update(); });
+  $("clear").addEventListener("click", function () { state = { q: "", meal: "", kw: [], cuisine: "", sort: state.sort }; q.value = ""; update(); });
+  $("toggleMore").addEventListener("click", function () {
+    var more = $("more"); more.hidden = !more.hidden;
+    this.setAttribute("aria-expanded", String(!more.hidden));
+  });
+  if (state.cuisine) { $("more").hidden = false; $("toggleMore").setAttribute("aria-expanded", "true"); }
+  update();
+})();
+</script>
+</body>
+</html>
