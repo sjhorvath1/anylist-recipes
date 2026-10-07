@@ -28,8 +28,8 @@
  {
   "slug": "hillstone-inspired-chicken-tortilla-soup",
   "url": "recipes/hillstone-inspired-chicken-tortilla-soup.html",
-  "title": "Hillstone-Inspired Chicken Tortilla Soup",
-  "description": "A silky, restaurant-style chicken tortilla soup thickened with masa and blended tortilla chips, strained until completely smooth, then finished with chicken and classic toppings.",
+  "title": "Hillstone Inspired Chicken Tortilla Soup",
+  "description": "A silky, restaurant-style chicken tortilla soup thickened with masa and blended tortilla chips, strained until completely smooth, then finished with chicken and topped with avocado, cheddar, crispy tortilla strips, and cilantro.",
   "yield": "4 servings",
   "mealType": "Dinner",
   "cuisine": "Tex-Mex",
@@ -51,15 +51,16 @@
    "8 cups chicken stock",
    "16 oz cooked chicken, shredded or chopped",
    "Fresh cilantro, chopped",
-   "200 g avocado, diced (about 1 1/3 medium)",
    "4 oz cheddar cheese, shredded",
-   "4 oz fried tortilla strips"
+   "200 g avocado, cut into pieces",
+   "4 oz fried tortilla strips",
+   "Fresh cilantro, chopped, for garnish"
   ],
-  "calories": 977,
-  "protein": 61,
-  "fiber": 9,
-  "carbs": 84,
-  "fat": 45
+  "calories": 1024,
+  "protein": 59,
+  "fiber": 8,
+  "carbs": 83,
+  "fat": 50
  },
  {
   "slug": "day-by-day-cafe-buttermilk-pancakes",
