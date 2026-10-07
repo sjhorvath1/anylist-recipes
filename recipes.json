@@ -7,11 +7,14 @@
   "yield": "4 servings",
   "mealType": "Dinner",
   "cuisine": "Tex-Mex",
-  "keywords": [],
+  "keywords": [
+   "high-protein",
+   "high-fiber"
+  ],
   "minutes": 40,
   "added": "2026-10-07",
   "ingredients": [
-   "Butter or fat of choice",
+   "1 Tbsp butter",
    "1 medium yellow onion, small diced",
    "Garlic, minced, to taste",
    "1/2 cup masa harina",
@@ -20,17 +23,17 @@
    "1 tsp black pepper",
    "6 oz corn tortilla chips, blended or crushed",
    "8 cups chicken stock",
-   "Cooked chicken, shredded or chopped",
+   "16 oz cooked chicken, shredded or chopped",
    "Fresh cilantro, chopped",
-   "Avocado pieces",
-   "Shredded cheddar cheese",
-   "Fried tortilla strips"
+   "200 g avocado, diced (about 1 1/3 medium)",
+   "4 oz cheddar cheese, shredded",
+   "4 oz fried tortilla strips"
   ],
-  "calories": 449,
-  "protein": 17,
-  "fiber": 5,
-  "carbs": 61,
-  "fat": 16
+  "calories": 977,
+  "protein": 61,
+  "fiber": 9,
+  "carbs": 84,
+  "fat": 45
  },
  {
   "slug": "day-by-day-cafe-buttermilk-pancakes",
