@@ -1,5 +1,38 @@
 [
  {
+  "slug": "hillstone-inspired-chicken-tortilla-soup",
+  "url": "recipes/hillstone-inspired-chicken-tortilla-soup.html",
+  "title": "Hillstone-Inspired Chicken Tortilla Soup",
+  "description": "A silky, restaurant-style chicken tortilla soup thickened with masa and blended tortilla chips, strained until completely smooth, then finished with chicken and classic toppings.",
+  "yield": "4 servings",
+  "mealType": "Dinner",
+  "cuisine": "Tex-Mex",
+  "keywords": [],
+  "minutes": 40,
+  "added": "2026-10-07",
+  "ingredients": [
+   "Butter or fat of choice",
+   "1 medium yellow onion, small diced",
+   "Garlic, minced, to taste",
+   "1/2 cup masa harina",
+   "1 Tbsp ground cumin",
+   "1 Tbsp chili powder",
+   "1 tsp black pepper",
+   "6 oz corn tortilla chips, blended or crushed",
+   "8 cups chicken stock",
+   "Cooked chicken, shredded or chopped",
+   "Fresh cilantro, chopped",
+   "Avocado pieces",
+   "Shredded cheddar cheese",
+   "Fried tortilla strips"
+  ],
+  "calories": 449,
+  "protein": 17,
+  "fiber": 5,
+  "carbs": 61,
+  "fat": 16
+ },
+ {
   "slug": "day-by-day-cafe-buttermilk-pancakes",
   "url": "recipes/day-by-day-cafe-buttermilk-pancakes.html",
   "title": "Day by Day Cafe Buttermilk Pancakes",
