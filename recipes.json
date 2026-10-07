@@ -153,6 +153,7 @@
   "mealType": "Dinner",
   "cuisine": "Chinese",
   "keywords": [
+   "high-protein",
    "slow-cooker"
   ],
   "minutes": null,
@@ -178,11 +179,11 @@
    "Sesame seeds, optional",
    "Chili crisp oil, optional"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 707,
+  "protein": 33,
+  "fiber": 1,
+  "carbs": 55,
+  "fat": 40
  },
  {
   "slug": "rigatoni-alla-vodka",
@@ -221,7 +222,7 @@
   ],
   "calories": 515,
   "protein": 43,
-  "fiber": null,
+  "fiber": 6,
   "carbs": 60,
   "fat": 10
  },
@@ -419,7 +420,10 @@
   "yield": "",
   "mealType": "Dinner",
   "cuisine": "Japanese",
-  "keywords": [],
+  "keywords": [
+   "high-protein",
+   "high-fiber"
+  ],
   "minutes": null,
   "added": "2026-09-13",
   "ingredients": [
@@ -438,11 +442,11 @@
    "1 teaspoon ginger, grated",
    "1 tablespoon cornstarch, add more or less depending on thickness preference"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 784,
+  "protein": 34,
+  "fiber": 9,
+  "carbs": 93,
+  "fat": 31
  },
  {
   "slug": "street-corn-pasta",
@@ -489,7 +493,7 @@
   ],
   "calories": 655,
   "protein": 54,
-  "fiber": null,
+  "fiber": 5,
   "carbs": 77,
   "fat": 15
  },
@@ -537,7 +541,7 @@
   ],
   "calories": 625,
   "protein": 55,
-  "fiber": null,
+  "fiber": 4,
   "carbs": 61,
   "fat": 17
  },
@@ -598,7 +602,7 @@
   ],
   "calories": 492,
   "protein": 41,
-  "fiber": null,
+  "fiber": 4,
   "carbs": 48,
   "fat": 17
  },
@@ -610,7 +614,9 @@
   "yield": "",
   "mealType": "Dinner",
   "cuisine": "Japanese",
-  "keywords": [],
+  "keywords": [
+   "high-fiber"
+  ],
   "minutes": null,
   "added": "2026-09-05",
   "ingredients": [
@@ -626,11 +632,11 @@
    "1 avocado, sliced",
    "1/4 cup kimchi"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 863,
+  "protein": 29,
+  "fiber": 11,
+  "carbs": 99,
+  "fat": 39
  },
  {
   "slug": "animal-style-loaded-sweet-potato",
@@ -664,7 +670,7 @@
   ],
   "calories": 575,
   "protein": 52,
-  "fiber": null,
+  "fiber": 5,
   "carbs": 55,
   "fat": 17
  },
@@ -734,7 +740,7 @@
   ],
   "calories": 528,
   "protein": 47,
-  "fiber": null,
+  "fiber": 2,
   "carbs": 59,
   "fat": 10
  },
@@ -784,6 +790,7 @@
   "mealType": "Lunch",
   "cuisine": "Asian Fusion",
   "keywords": [
+   "high-fiber",
    "vegetarian"
   ],
   "minutes": null,
@@ -805,11 +812,11 @@
    "1 tbsp toasted sesame oil",
    "1/4 cup starchy pasta water, saved right before draining"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 634,
+  "protein": 26,
+  "fiber": 11,
+  "carbs": 67,
+  "fat": 31
  },
  {
   "slug": "teriyaki-beef-summer-rolls",
@@ -883,7 +890,7 @@
   ],
   "calories": 510,
   "protein": 42,
-  "fiber": null,
+  "fiber": 5,
   "carbs": 60,
   "fat": 13
  },
@@ -960,10 +967,10 @@
    "Smoky cheese slices (4), to serve"
   ],
   "calories": 391,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 23,
+  "fiber": 1,
+  "carbs": 8,
+  "fat": 29
  },
  {
   "slug": "potato-crust-quiche",
@@ -991,10 +998,10 @@
    "Fresh chives"
   ],
   "calories": 348,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 21,
+  "fiber": 2,
+  "carbs": 24,
+  "fat": 19
  },
  {
   "slug": "lemongrass-chicken-meatball-bowl",
@@ -1037,10 +1044,10 @@
    "1/2 cup fresh coriander leaves"
   ],
   "calories": 488,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 40,
+  "fiber": 2,
+  "carbs": 47,
+  "fat": 13
  },
  {
   "slug": "honey-miso-chicken-thighs",
@@ -1083,7 +1090,7 @@
   ],
   "calories": 540,
   "protein": 43,
-  "fiber": null,
+  "fiber": 2,
   "carbs": 47,
   "fat": 21
  },
@@ -1151,10 +1158,10 @@
    "Sliced jalapenos, to taste"
   ],
   "calories": 170,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 8,
+  "fiber": 4,
+  "carbs": 24,
+  "fat": 5
  },
  {
   "slug": "mcchicken-sandwiches-spicy-pickle-ranch",
@@ -1193,10 +1200,10 @@
    "American cheese slices (optional)"
   ],
   "calories": 580,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 25,
+  "fiber": 2,
+  "carbs": 41,
+  "fat": 35
  },
  {
   "slug": "chili-coconut-rice-bowl-with-sweet-n-sticky-chicken",
@@ -1242,10 +1249,10 @@
    "2 tsp cornstarch (whisked into sauce)"
   ],
   "calories": 1518,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 64,
+  "fiber": 4,
+  "carbs": 198,
+  "fat": 55
  },
  {
   "slug": "bean-and-cheese-burritos",
@@ -1257,6 +1264,7 @@
   "cuisine": "Mexican",
   "keywords": [
    "high-protein",
+   "high-fiber",
    "meal-prep",
    "freezer-friendly",
    "vegetarian"
@@ -1279,7 +1287,7 @@
   ],
   "calories": 380,
   "protein": 33,
-  "fiber": null,
+  "fiber": 37,
   "carbs": 62,
   "fat": 14
  },
@@ -1336,10 +1344,10 @@
    "Crushed Oreo cookies, for garnish"
   ],
   "calories": 171,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 20,
+  "fiber": 2,
+  "carbs": 17,
+  "fat": 1
  },
  {
   "slug": "peach-carrot-deli-container-mocktail",
@@ -1369,10 +1377,10 @@
    "Sparkling water to top (optional, in place of or in addition to electrolyte water)"
   ],
   "calories": 213,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 2,
+  "fiber": 5,
+  "carbs": 58,
+  "fat": 1
  },
  {
   "slug": "mocha-overnight-oats",
@@ -1403,10 +1411,10 @@
    "1 1/2 cups full-fat dairy-free yogurt"
   ],
   "calories": 280,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 19,
+  "fiber": 6,
+  "carbs": 41,
+  "fat": 6
  },
  {
   "slug": "chocolate-peanut-butter-crunch-bar",
@@ -1433,10 +1441,10 @@
    "2 tbsp coconut oil"
   ],
   "calories": 224,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 4,
+  "fiber": 2,
+  "carbs": 22,
+  "fat": 14
  },
  {
   "slug": "sticky-toffee-pudding-baked-oats",
@@ -1468,10 +1476,10 @@
    "Salt, a generous pinch"
   ],
   "calories": 743,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 31,
+  "fiber": 13,
+  "carbs": 121,
+  "fat": 18
  },
  {
   "slug": "spicy-hot-chocolate",
@@ -1495,10 +1503,10 @@
    "Sweetener of choice, optional, to taste"
   ],
   "calories": 23,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 2,
+  "fiber": 4,
+  "carbs": 6,
+  "fat": 1
  },
  {
   "slug": "oat-chia-wraps",
@@ -1524,10 +1532,10 @@
    "Neutral oil, for the pan"
   ],
   "calories": 87,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 3,
+  "fiber": 3,
+  "carbs": 15,
+  "fat": 2
  },
  {
   "slug": "miso-chicken-roasted-veggies",
@@ -1560,17 +1568,17 @@
    "Green onions, chopped, for garnish"
   ],
   "calories": 440,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 24,
+  "fiber": 7,
+  "carbs": 42,
+  "fat": 24
  },
  {
   "slug": "high-protein-hot-pockets",
   "url": "recipes/high-protein-hot-pockets.html",
   "title": "High-Protein Hot Pockets",
   "description": "Meal-prep-friendly high-protein hot pockets made with a Greek yogurt dough and filled with lean ground beef, scrambled eggs, bacon, and fat-free cheese. Freezer-ready for up to 3 months.",
-  "yield": "5 hot pockets",
+  "yield": "10 hot pockets",
   "mealType": "Breakfast",
   "cuisine": "American",
   "keywords": [
@@ -1600,11 +1608,11 @@
    "10g fresh chives, chopped",
    "280g fat-free mozzarella (about 2.5 cups)"
   ],
-  "calories": 450,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 477,
+  "protein": 47,
+  "fiber": 3,
+  "carbs": 47,
+  "fat": 10
  },
  {
   "slug": "chipotle-chicken-quesadillas",
@@ -1616,6 +1624,7 @@
   "cuisine": "Mexican",
   "keywords": [
    "high-protein",
+   "high-fiber",
    "meal-prep",
    "freezer-friendly",
    "slow-cooker",
@@ -1644,7 +1653,7 @@
   ],
   "calories": 400,
   "protein": 60,
-  "fiber": null,
+  "fiber": 30,
   "carbs": 26,
   "fat": 6
  },
@@ -1690,7 +1699,7 @@
   ],
   "calories": 548,
   "protein": 51,
-  "fiber": null,
+  "fiber": 8,
   "carbs": 52,
   "fat": 17
  },
@@ -1724,10 +1733,10 @@
    "2-3 tablespoons ranch seasoning"
   ],
   "calories": 555,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 45,
+  "fiber": 0,
+  "carbs": 46,
+  "fat": 20
  },
  {
   "slug": "raspberry-almond-chia-pudding",
@@ -1754,10 +1763,10 @@
    "Drizzle of rosehip syrup (optional)"
   ],
   "calories": 664,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 30,
+  "fiber": 30,
+  "carbs": 78,
+  "fat": 30
  },
  {
   "slug": "high-protein-taco-bell-grilled-cheese-burrito",
@@ -1802,10 +1811,10 @@
    "10 oz light grated cheddar cheese"
   ],
   "calories": 676,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 46,
+  "fiber": 12,
+  "carbs": 56,
+  "fat": 31
  },
  {
   "slug": "cottage-cheese-beef-biscuits",
@@ -1841,10 +1850,10 @@
    "1 tsp sea salt"
   ],
   "calories": 277,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 15,
+  "fiber": 1,
+  "carbs": 28,
+  "fat": 12
  },
  {
   "slug": "big-batch-baked-ziti",
@@ -1883,7 +1892,7 @@
   ],
   "calories": 610,
   "protein": 45,
-  "fiber": null,
+  "fiber": 7,
   "carbs": 72,
   "fat": 15
  },
@@ -1892,7 +1901,7 @@
   "url": "recipes/street-corn-honey-chipotle-chicken-bowl.html",
   "title": "Street Corn Honey Chipotle Chicken Bowl",
   "description": "A high-protein meal bowl featuring honey chipotle marinated chicken thighs topped with a charred street corn mixture made with cottage cheese and feta. Serve over cauliflower rice, lettuce, regular rice, or in a wrap. Yields approximately 445 calories and 52g protein per bowl when served with cauliflower rice. Recipe makes multiple servings from the full batch.",
-  "yield": "~4 servings",
+  "yield": "6 servings",
   "mealType": "Dinner",
   "cuisine": "Mexican",
   "keywords": [
@@ -1916,10 +1925,10 @@
    "Cauliflower rice, lettuce, regular rice, or tortilla wrap"
   ],
   "calories": 445,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 52,
+  "fiber": 3,
+  "carbs": 22,
+  "fat": 22
  },
  {
   "slug": "sour-cream-onion-chicken-salad",
@@ -1930,6 +1939,7 @@
   "mealType": "Lunch",
   "cuisine": "American",
   "keywords": [
+   "high-protein",
    "meal-prep"
   ],
   "minutes": null,
@@ -1943,11 +1953,11 @@
    "1/4 cup caramelized onions",
    "1 package Hidden Valley Ranch dip mix"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 243,
+  "protein": 32,
+  "fiber": 1,
+  "carbs": 8,
+  "fat": 8
  },
  {
   "slug": "loaded-chicken-street-corn-potato",
@@ -1980,10 +1990,10 @@
    "2 limes, juiced"
   ],
   "calories": 380,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 31,
+  "fiber": 5,
+  "carbs": 33,
+  "fat": 14
  },
  {
   "slug": "jalapeno-popper-chicken-salad",
@@ -2011,9 +2021,9 @@
   ],
   "calories": 275,
   "protein": 25,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "fiber": 0,
+  "carbs": 6,
+  "fat": 15
  },
  {
   "slug": "steak-chimichurri-dense-bean-salad",
@@ -2083,11 +2093,11 @@
    "2 cups pearled couscous",
    "Jalapenos, de-seeded and sliced, for garnish"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 563,
+  "protein": 24,
+  "fiber": 6,
+  "carbs": 59,
+  "fat": 25
  },
  {
   "slug": "black-bean-quesadillas",
@@ -2161,7 +2171,7 @@
   ],
   "calories": 249,
   "protein": 28,
-  "fiber": null,
+  "fiber": 1,
   "carbs": 18,
   "fat": 7
  },
@@ -2188,10 +2198,10 @@
    "Black pepper, to taste (optional)"
   ],
   "calories": 353,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 33,
+  "fiber": 0,
+  "carbs": 0,
+  "fat": 23
  },
  {
   "slug": "high-protein-chicken-salad",
@@ -2224,10 +2234,10 @@
    "2 tablespoons fresh dill, chopped small"
   ],
   "calories": 443,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 58,
+  "fiber": 1,
+  "carbs": 9,
+  "fat": 17
  },
  {
   "slug": "crispy-mirin-sesame-chicken",
@@ -2237,7 +2247,9 @@
   "yield": "4 servings",
   "mealType": "Dinner",
   "cuisine": "Asian Fusion",
-  "keywords": [],
+  "keywords": [
+   "high-protein"
+  ],
   "minutes": null,
   "added": "2026-04-05",
   "ingredients": [
@@ -2268,11 +2280,11 @@
    "Cucumber, shredded, for serving",
    "Fresh cilantro, for serving"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 723,
+  "protein": 63,
+  "fiber": 0,
+  "carbs": 57,
+  "fat": 27
  },
  {
   "slug": "low-cal-hoagie-spread",
@@ -2298,10 +2310,10 @@
    "Pinch of salt"
   ],
   "calories": 27,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 1,
+  "fiber": 0,
+  "carbs": 2,
+  "fat": 2
  },
  {
   "slug": "korean-spicy-soy-marinated-canned-tuna",
@@ -2330,7 +2342,7 @@
   ],
   "calories": 362,
   "protein": 30,
-  "fiber": null,
+  "fiber": 2,
   "carbs": 46,
   "fat": 7
  },
@@ -2368,10 +2380,10 @@
    "1 tsp sugar-free ketchup (15g)"
   ],
   "calories": 458,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 55,
+  "fiber": 3,
+  "carbs": 26,
+  "fat": 17
  },
  {
   "slug": "tuna-kimchi-jeon",
@@ -2381,7 +2393,9 @@
   "yield": "",
   "mealType": "Lunch",
   "cuisine": "Korean",
-  "keywords": [],
+  "keywords": [
+   "high-protein"
+  ],
   "minutes": null,
   "added": "2026-04-02",
   "ingredients": [
@@ -2400,11 +2414,11 @@
    "2 tsp sesame oil",
    "2 tsp minced garlic"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 558,
+  "protein": 32,
+  "fiber": 2,
+  "carbs": 82,
+  "fat": 10
  },
  {
   "slug": "broccoli-pesto-white-bean-salad",
@@ -2415,6 +2429,7 @@
   "mealType": "Lunch",
   "cuisine": "Mediterranean",
   "keywords": [
+   "high-fiber",
    "meal-prep",
    "vegetarian"
   ],
@@ -2439,11 +2454,11 @@
    "1/2 tsp ground black pepper",
    "1/3 cup olive oil"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 541,
+  "protein": 23,
+  "fiber": 14,
+  "carbs": 56,
+  "fat": 27
  },
  {
   "slug": "tzatziki-chicken-salad",
@@ -2461,7 +2476,7 @@
   "added": "2026-03-28",
   "ingredients": [
    "3.5 cups chicken breast, cooked and chopped (rotisserie, boiled, or canned all work)",
-   "3/4 cup plain 0 0reek yogurt",
+   "3/4 cup plain 0% Greek yogurt",
    "1 cup celery, chopped",
    "1/2 cup red onion, chopped",
    "1/2 lemon, juiced",
@@ -2471,10 +2486,10 @@
    "1/2 tsp black pepper"
   ],
   "calories": 241,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 46,
+  "fiber": 1,
+  "carbs": 3,
+  "fat": 5
  },
  {
   "slug": "nashville-hot-chicken-sandwich",
@@ -2485,6 +2500,7 @@
   "mealType": "Dinner",
   "cuisine": "American",
   "keywords": [
+   "high-protein",
    "air-fryer"
   ],
   "minutes": null,
@@ -2507,11 +2523,11 @@
    "4–5 pickles",
    "1 brioche bun"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 1404,
+  "protein": 65,
+  "fiber": 6,
+  "carbs": 208,
+  "fat": 34
  },
  {
   "slug": "high-protein-baguette-pizzas",
@@ -2535,7 +2551,7 @@
   ],
   "calories": 338,
   "protein": 28,
-  "fiber": null,
+  "fiber": 2,
   "carbs": 30,
   "fat": 12
  },
@@ -2547,7 +2563,10 @@
   "yield": "",
   "mealType": "Dinner",
   "cuisine": "Greek",
-  "keywords": [],
+  "keywords": [
+   "high-protein",
+   "high-fiber"
+  ],
   "minutes": null,
   "added": "2026-03-09",
   "ingredients": [
@@ -2570,18 +2589,18 @@
    "Olive oil",
    "Salt, to taste",
    "Black pepper, to taste",
-   "2 cups heavy cream",
+   "2 cups half-and-half",
    "1/4 cup shallots, minced",
    "10 cloves garlic, minced",
    "2 tablespoons fresh rosemary",
    "3 tablespoons crushed black peppercorns",
    "Salt, to taste"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 1120,
+  "protein": 59,
+  "fiber": 8,
+  "carbs": 65,
+  "fat": 70
  },
  {
   "slug": "sausage-cheddar-maple-breakfast-bake",
@@ -2607,11 +2626,11 @@
    "1 cup shredded cheddar cheese",
    "Maple syrup, for serving"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 369,
+  "protein": 17,
+  "fiber": 1,
+  "carbs": 31,
+  "fat": 19
  },
  {
   "slug": "black-sesame-swirl-banana-bread",
@@ -2642,11 +2661,11 @@
    "3 tablespoons black sesame paste",
    "Black sesame seeds, for sprinkling on loaf (optional)"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 342,
+  "protein": 5,
+  "fiber": 2,
+  "carbs": 49,
+  "fat": 15
  },
  {
   "slug": "crack-sauce",
@@ -2671,11 +2690,11 @@
    "1/4 large shallot",
    "10 cloves garlic"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 41,
+  "protein": 1,
+  "fiber": 0,
+  "carbs": 10,
+  "fat": 0
  },
  {
   "slug": "kale-salad-with-cannellini-beans",
@@ -2743,10 +2762,10 @@
    "1/2 tsp chicken bouillon"
   ],
   "calories": 551,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "protein": 11,
+  "fiber": 9,
+  "carbs": 41,
+  "fat": 40
  },
  {
   "slug": "doctors-favourite-lunch",
@@ -2770,11 +2789,11 @@
    "3 eggs, whisked and seasoned with salt, pepper, and chilli flakes",
    "1 handful cheese"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 322,
+  "protein": 18,
+  "fiber": 7,
+  "carbs": 36,
+  "fat": 12
  },
  {
   "slug": "vegan-breakfast-burritos-with-lime-coriander-crema",
@@ -2868,7 +2887,7 @@
   ],
   "calories": 650,
   "protein": 45,
-  "fiber": null,
+  "fiber": 2,
   "carbs": 15,
   "fat": 50
  },
@@ -2882,6 +2901,7 @@
   "cuisine": "Korean",
   "keywords": [
    "high-protein",
+   "high-fiber",
    "meal-prep"
   ],
   "minutes": null,
@@ -2915,7 +2935,7 @@
   ],
   "calories": 417,
   "protein": 39,
-  "fiber": null,
+  "fiber": 30,
   "carbs": 38,
   "fat": 12
  },
@@ -2951,7 +2971,7 @@
   ],
   "calories": 700,
   "protein": 61,
-  "fiber": null,
+  "fiber": 4,
   "carbs": 79,
   "fat": 13
  },
@@ -2989,7 +3009,7 @@
   ],
   "calories": 352,
   "protein": 33,
-  "fiber": null,
+  "fiber": 1,
   "carbs": 37,
   "fat": 6
  },
@@ -3003,6 +3023,7 @@
   "cuisine": "Tex-Mex",
   "keywords": [
    "high-protein",
+   "high-fiber",
    "meal-prep"
   ],
   "minutes": null,
@@ -3032,7 +3053,7 @@
   ],
   "calories": 475,
   "protein": 44,
-  "fiber": null,
+  "fiber": 30,
   "carbs": 37,
   "fat": 17
  },
@@ -3062,7 +3083,7 @@
   ],
   "calories": 320,
   "protein": 9,
-  "fiber": null,
+  "fiber": 3,
   "carbs": 18,
   "fat": 24
  },
@@ -3074,7 +3095,10 @@
   "yield": "",
   "mealType": "Dinner",
   "cuisine": "American",
-  "keywords": [],
+  "keywords": [
+   "high-protein",
+   "air-fryer"
+  ],
   "minutes": null,
   "added": "2026-02-21",
   "ingredients": [
@@ -3093,18 +3117,17 @@
    "1/2 tsp paprika",
    "1/2 tsp garlic powder",
    "2 eggs",
-   "1 7.5-oz bag kettle cooked potato chips, crushed into a powder",
-   "Avocado oil or another high heat oil, for frying",
-   "8 tbsp butter",
-   "2/3 cups Frank's RedHot Original",
+   "1 cup panko breadcrumbs",
+   "2 tbsp butter",
+   "2/3 cup Frank's 0-calorie buffalo sauce",
    "1 tsp garlic powder",
    "Cayenne pepper to taste",
    "Blue cheese, optional (for serving)"
   ],
-  "calories": null,
-  "protein": null,
-  "fiber": null,
-  "carbs": null,
-  "fat": null
+  "calories": 759,
+  "protein": 51,
+  "fiber": 6,
+  "carbs": 45,
+  "fat": 44
  }
 ]
