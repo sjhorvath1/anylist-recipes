@@ -63,6 +63,32 @@
   "fat": 45
  },
  {
+  "slug": "berry-chocolate-peanut-butter-protein-smoothie",
+  "url": "recipes/berry-chocolate-peanut-butter-protein-smoothie.html",
+  "title": "Berry Chocolate Peanut Butter Protein Smoothie",
+  "description": "A single-serving high-protein smoothie made with frozen mixed berries, collagen, powdered peanut butter, and a Fairlife Nutrition Plan chocolate shake.",
+  "yield": "1 serving",
+  "mealType": "Drink",
+  "cuisine": "",
+  "keywords": [
+   "high-protein",
+   "high-fiber"
+  ],
+  "minutes": null,
+  "added": "2026-10-07",
+  "ingredients": [
+   "2 cups frozen mixed berries",
+   "4 Tbsp Vital Proteins collagen protein powder",
+   "2 Tbsp PBfit peanut butter powder",
+   "1 bottle Fairlife Nutrition Plan chocolate shake"
+  ],
+  "calories": 435,
+  "protein": 57,
+  "fiber": 14,
+  "carbs": 44,
+  "fat": 6
+ },
+ {
   "slug": "day-by-day-cafe-buttermilk-pancakes",
   "url": "recipes/day-by-day-cafe-buttermilk-pancakes.html",
   "title": "Day by Day Cafe Buttermilk Pancakes",
